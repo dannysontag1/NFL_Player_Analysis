@@ -26,7 +26,7 @@ for year in range (2012, 2022):
     RB['Year'] = year
     RBdf = pd.concat([RBdf, RB], axis=0)
 # RBdf.to_csv(r'C:\Users\ds022i\RBConcattest.csv', index=False)
-
+# 
 TACKLEJSONData = open('TACKLE_JSON_DATA.json')
 TACKLEdata = json.load(TACKLEJSONData)
 TACKLEdf = pd.DataFrame()
@@ -37,8 +37,41 @@ for year in range (2012, 2022):
     TACKLEdf = pd.concat([TACKLEdf, TACKLE], axis=0)
 # TACKLEdf.to_csv(r'C:\Users\ds022i\TACKLEConcattest.csv', index=False)
 
-Offensedf = pd.concat([QBdf, RBdf, TACKLEdf], axis=0)
-Offensedf.to_csv(r'C:\Users\ds022i\OffenseConcattest.csv', index=False)
+Offense_df = pd.concat([QBdf, RBdf, TACKLEdf], axis=0)
+Offense_df.to_csv(r'C:\Users\ds022i\OffenseConcattest.csv', index=False)
+
+EDGEJSONData = open('EDGE_JSON_DATA.json')
+EDGEdata = json.load(EDGEJSONData)
+EDGEdf = pd.DataFrame()
+for year in range (2012, 2022):
+    EDGE = EDGEdata[str(year) + '_players']
+    EDGE = pd.DataFrame(EDGE)
+    EDGE['Year'] = year
+    EDGEdf = pd.concat([EDGEdf, EDGE], axis=0)
+# EDGEdf.to_csv(r'C:\Users\ds022i\EDGEConcattest.csv', index=False)
+
+LBJSONData = open('LB_JSON_DATA.json')
+LBdata = json.load(LBJSONData)
+LBdf = pd.DataFrame()
+for year in range (2012, 2022):
+    LB = LBdata[str(year) + '_players']
+    LB = pd.DataFrame(LB)
+    LB['Year'] = year
+    LBdf = pd.concat([LBdf, LB], axis=0)
+# LBdf.to_csv(r'C:\Users\ds022i\LBConcattest.csv', index=False)
+
+CBJSONData = open('CB_JSON_DATA.json')
+CBdata = json.load(CBJSONData)
+CBdf = pd.DataFrame()
+for year in range (2012, 2022):
+    CB = CBdata[str(year) + '_players']
+    CB = pd.DataFrame(CB)
+    CB['Year'] = year
+    CBdf = pd.concat([CBdf, CB], axis=0)
+# CBdf.to_csv(r'C:\Users\ds022i\CBConcattest.csv', index=False)
+
+Defense_df = pd.concat([EDGEdf, LBdf, CBdf], axis=0)
+Defense_df.to_csv(r'C:\Users\ds022i\DefenseConcattest.csv', index=False)
 
 
 
