@@ -5,11 +5,13 @@ import pandasql as ps
 import matplotlib.pyplot as plt
 from bs4 import BeautifulSoup as bs
 import requests
+import datetime as dt
 pd.set_option('display.max_columns', None)
 
 QBJSONData = open('QB_JSON_DATA.json')
 QBdata = json.load(QBJSONData)
-QBdf = pd.DataFrame()
+# print(QBdata.keys())
+QBdf = pd.DataFrame()    # Create a blank df to loop through the keys for each year
 for year in range (2012, 2022):
     QB = QBdata[str(year) + '_players']
     QB = pd.DataFrame(QB)
@@ -38,7 +40,7 @@ for year in range (2012, 2022):
 # TACKLEdf.to_csv(r'C:\Users\ds022i\TACKLEConcattest.csv', index=False)
 
 Offense_df = pd.concat([QBdf, RBdf, TACKLEdf], axis=0)
-Offense_df.to_csv(r'C:\Users\ds022i\OffenseConcattest.csv', index=False)
+# Offense_df.to_csv(r'C:\Users\ds022i\OffenseConcattest.csv', index=False)
 
 EDGEJSONData = open('EDGE_JSON_DATA.json')
 EDGEdata = json.load(EDGEJSONData)
@@ -71,10 +73,53 @@ for year in range (2012, 2022):
 # CBdf.to_csv(r'C:\Users\ds022i\CBConcattest.csv', index=False)
 
 Defense_df = pd.concat([EDGEdf, LBdf, CBdf], axis=0)
-Defense_df.to_csv(r'C:\Users\ds022i\DefenseConcattest.csv', index=False)
+# Defense_df.to_csv(r'C:\Users\ds022i\DefenseConcattest.csv', index=False)
 
 
+# Columns to bring in Name, grade_position, offense (offense_rating), offense_snaps, age, height, weight, college, year
+# Need to filter our blank ages
+Offense_df = Offense_df.loc[(Offense_df['age'] != "")]
+# Put filter on number of snaps to only return players with significant playing time remove index
+Offense_df = Offense_df[Offense_df['offense_snaps'] > 300]
+# Age is their current age need to use Year field to get age at the time of the season end
+Offense_df['age'] = pd.to_numeric(Offense_df['age'])
+today = dt.date.today()
+Offense_df['age'] = round(Offense_df['age'] - (today.year - Offense_df['Year'] - today.month/12), 1)
+# Filter out only columns I'm going to use
+Offense_df = Offense_df[['name', 'grade_position', 'offense', 'offense_snaps', 'age', 'height', 'weight', 'college', 'Year']]
 
+# Calculate the max performing year for each Offensive Position
+# If Max year is in 2021 then we won't include because we don't know if they have hit their peak yet
+# If Max year is 2012 (first year of data) they may have already been on the decline so exclude
+# Put a filter on 3 season played to get a greater view of a players performance
+
+Offense_Max_df = ps.sqldf("Select Distinct Name, max(offense), grade_position, age, Year,  count(name) from Offense_df group by name having count(name) > 2")
+Offense_Max_df = ps.sqldf("Select *, case when year in (2021, 2012) then 'No' else 'Yes' end Max_Year from Offense_Max_df")
+Offense_Max_df = ps.sqldf("Select * from Offense_Max_df where Max_Year = 'Yes'")
+# Offense_Age_df = Offense_Max_df.groupby('grade_position')['age'].mean()
+# print(Offense_Age_df)
+
+# Columns to bring in Name, grade_position, defense, defense_snaps, age, height, weight, college, year
+
+Defense_df = Defense_df.loc[(Defense_df['age'] != "")]
+Defense_df = Defense_df[Defense_df['defense_snaps'] > 300]
+Defense_df['age'] = pd.to_numeric(Defense_df['age'])
+Defense_df['age'] = pd.to_numeric(Defense_df['age'])
+today = dt.date.today()
+Defense_df['age'] = round(Defense_df['age'] - (today.year - Defense_df['Year'] - today.month/12), 1)
+Defense_df = Defense_df[['name', 'grade_position', 'defense', 'defense_snaps', 'age', 'height', 'weight', 'college', 'Year']]
+Defense_df.to_csv(r'C:\Users\ds022i\DefTotalConcattest.csv', index=False)
+Defense_Max_df = ps.sqldf("Select Distinct Name, max(defense), grade_position, age, Year,  count(name) from Defense_df group by name having count(name) > 2")
+Defense_Max_df = ps.sqldf("Select *, case when year in (2021, 2012) then 'No' else 'Yes' end Max_Year from Defense_Max_df")
+Defense_Max_df = ps.sqldf("Select * from Defense_Max_df where Max_Year = 'Yes'")
+# Defense_Age_df = Defense_Max_df.groupby('grade_position')['age'].mean()
+# print(Defense_Age_df)
+
+Total_Age_df = pd.concat([Defense_Max_df, Offense_Max_df], axis=0)
+Total_Age_df.to_csv(r'C:\Users\ds022i\TotalConcattest.csv', index=False)
+# print(Total_Age_df)
+# Total_Age_df = Total_Age_df.groupby('grade_position')['age'].mean()
+# print(Total_Age_df)
 
 
 
