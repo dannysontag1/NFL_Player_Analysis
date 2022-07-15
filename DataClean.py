@@ -87,6 +87,9 @@ today = dt.date.today()
 Offense_df['age'] = round(Offense_df['age'] - (today.year - Offense_df['Year'] - today.month/12), 1)
 # Filter out only columns I'm going to use
 Offense_df = Offense_df[['name', 'grade_position', 'offense', 'offense_snaps', 'age', 'height', 'weight', 'college', 'Year']]
+Offense_df.loc[Offense_df['grade_position'] == 'T', 'grade_position'] = 'Tackle'
+Offense_df.loc[Offense_df['grade_position'] == 'QB', 'grade_position'] = 'Quarterback'
+Offense_df.loc[Offense_df['grade_position'] == 'HB', 'grade_position'] = 'RunningBack'
 
 # Calculate the max performing year for each Offensive Position
 # If Max year is in 2021 then we won't include because we don't know if they have hit their peak yet
@@ -96,6 +99,8 @@ Offense_df = Offense_df[['name', 'grade_position', 'offense', 'offense_snaps', '
 Offense_Max_df = ps.sqldf("Select Distinct Name, max(offense), grade_position, age, Year,  count(name) from Offense_df group by name having count(name) > 2")
 Offense_Max_df = ps.sqldf("Select *, case when year in (2021, 2012) then 'No' else 'Yes' end Max_Year from Offense_Max_df")
 Offense_Max_df = ps.sqldf("Select * from Offense_Max_df where Max_Year = 'Yes'")
+
+
 # Offense_Age_df = Offense_Max_df.groupby('grade_position')['age'].mean()
 # print(Offense_Age_df)
 
@@ -108,15 +113,40 @@ Defense_df['age'] = pd.to_numeric(Defense_df['age'])
 today = dt.date.today()
 Defense_df['age'] = round(Defense_df['age'] - (today.year - Defense_df['Year'] - today.month/12), 1)
 Defense_df = Defense_df[['name', 'grade_position', 'defense', 'defense_snaps', 'age', 'height', 'weight', 'college', 'Year']]
-Defense_df.to_csv(r'C:\Users\ds022i\DefTotalConcattest.csv', index=False)
+Defense_df.loc[Defense_df['grade_position'] == 'LB', 'grade_position'] = 'Linebacker'
+Defense_df.loc[Defense_df['grade_position'] == 'ED', 'grade_position'] = 'DefensiveEnd'
+Defense_df.loc[Defense_df['grade_position'] == 'CB', 'grade_position'] = 'Cornerback'
+# Defense_df.to_csv(r'C:\Users\ds022i\DefTotalConcattest.csv', index=False)
 Defense_Max_df = ps.sqldf("Select Distinct Name, max(defense), grade_position, age, Year,  count(name) from Defense_df group by name having count(name) > 2")
 Defense_Max_df = ps.sqldf("Select *, case when year in (2021, 2012) then 'No' else 'Yes' end Max_Year from Defense_Max_df")
 Defense_Max_df = ps.sqldf("Select * from Defense_Max_df where Max_Year = 'Yes'")
 # Defense_Age_df = Defense_Max_df.groupby('grade_position')['age'].mean()
 # print(Defense_Age_df)
 
-Total_Age_df = pd.concat([Defense_Max_df, Offense_Max_df], axis=0)
-Total_Age_df.to_csv(r'C:\Users\ds022i\TotalConcattest.csv', index=False)
+# Concat both Defense and Offense DF together
+Total_MaxAge_df = pd.concat([Defense_Max_df, Offense_Max_df], axis=0)
+# Total_Age_df.to_csv(r'C:\Users\ds022i\TotalConcattest.csv', index=False)
 # print(Total_Age_df)
-# Total_Age_df = Total_Age_df.groupby('grade_position')['age'].mean()
-# print(Total_Age_df)
+
+# This Code give you the mean for age for each position
+Mean_MaxAge_df = Total_MaxAge_df.groupby('grade_position')['age'].mean()
+# print(Mean_MaxAge_df)
+
+Total_MaxAge_df.boxplot(by = 'grade_position', column=['age'],  grid= False, figsize=(8, 6), showfliers = True)
+plt.title("Prime Age by Position")
+plt.xlabel('Position')
+plt.ylabel('Prime Age')
+plt.show()
+
+Offense_College_df = Offense_df[['name', 'grade_position', 'college']]
+Defense_College_df = Defense_df[['name', 'grade_position', 'college']]
+College_df = pd.concat([Offense_College_df, Defense_College_df], axis=0)
+# College_df.to_csv(r'C:\Users\ds022i\CollegesConcat.csv', index=False)
+# This df has multiple lines for each year played. Need to get unique values
+College_df = ps.sqldf("Select distinct name, grade_position, college from College_df group by name")
+College_df = ps.sqldf("Select College, grade_position, count(grade_position)from College_df group by college, grade_position having count(grade_position) > 2 order by count(grade_position) desc")
+# College_df.to_csv(r'C:\Users\ds022i\GroupedCollege.csv', index=False)
+# College_df[0:10].plot(kind = 'bar', x = 'college', y = 'count(grade_position)')
+College_by_Position = College_df.groupby(['college']).sum()
+print(College_by_Position)
+
