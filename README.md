@@ -1,4 +1,4 @@
-# NFL Player Analysis utlizing Pro Football Focus Data
+# NFL Player Analysis
 Author: Daniel Sontag
 
 ![Screenshot](NFL_Players.png)
