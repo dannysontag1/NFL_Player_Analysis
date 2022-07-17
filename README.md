@@ -8,6 +8,7 @@ Author: Daniel Sontag
 
 With the recent advancement of data availability, over the past decade there has been a major uptick in synergy between analytics and sports. It has become big business with many companies capitalizing on the power that data can bring to an organization. Pro Football Focus (www.pff.com) has become a staple in the NFL analytics community proudly stating that in 2019 it was utilized by all 32 NFL teams. I will apply Pro Football Focus data from the last 10 years to predict the age of maximum performance across six vastly different positions in the NFL - Quarterback, Running Back, Tackle, Cornerback, Linebacker and Defensive End. In a salary capped league, determining the future value of players during contract negotiations is crucial in building a top caliber team. Additionally, I will be looking at alma mater of top tiered players to see if certain universities are producing NFL caliber players at a higher rate. Lastly, I'll look at height and weight of the players to determine if these quantifiable figures are a key indicator of success during the draft process.
 
+
 ## Cloning Repo and Installing Relevant Packages
 1. Confirm that a version of Python 3 has been installed on your local machine
 3. Open Git Bash and navigate to where you would like to clone my Repository using the CD "desired path" command
@@ -24,6 +25,16 @@ With the recent advancement of data availability, over the past decade there has
 1. Launch your preferred IDE
 2. Nagivate to the clone repo folder
 3. Run "NFL_Player_Analysis.py"
+
+
+## Requirements Met
+My project has met the following requires outlined by Code Kentucky:
+1. Read in data from a local csv, excel file, json, or any other file type. There are many ways to do this, but using Pandas read_ functions.
+2. Use built-in pandas or numpy functions to do things like remove 0’s and null values where they don’t belong in your dataset. 
+3. Use at least 5 different built-in Python functions to find out something about your data.
+4. Make 2 basic plots with matplotlib, seaborn, or any other kind of visualization library that you think looks interesting.
+5. Write markdown cells in Jupyter explaining your thought process and code. If you make a few plots with matplotlib, explain what the reader is seeing and why you chose to plot things that way
+
 
 
 
