@@ -42,7 +42,9 @@ It appears there is a large correlation between the three skills positions of Ru
 
 ![Screenshot](Position_Grade_Boxplot.png)
 
+
 ![Screenshot](College_AlmaMater_Boxplot.png)
+
 
 ![Screenshot](QBHeight_vs_Grade_Boxplot.png)
 
