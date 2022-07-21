@@ -13,17 +13,17 @@ With the recent advancement of data availability, over the past decade there has
 1. Confirm that a version of Python 3 has been installed on your local machine
 3. Open Git Bash and navigate to where you would like to clone my Repository using the CD "desired path" command
 4. Run git clone "git@github.com:dannysontag1/NFL_Player_Analysis.git" or you can grab the key directly from my repo
-5. Bring up the command prompt and once again nagivate to the cloned Repository using the CD "desired path" command
+5. Bring up the command prompt and once again navigate to the cloned Repository using the CD "desired path" command
 6. To make sure you have all the necessary packages to run my program, run "pip install -r requirements.txt" 
 
 ## Running my Project From Jupyter Notebook - Preferred
-1. Bring up the command prompt and once again nagivate to the cloned Repository using the CD "desired path" command
+1. Bring up the command prompt and once again navigate to the cloned Repository using the CD "desired path" command
 2. From the command prompt run "jupyter notebook" and this should launch a browser window with all my cloned repo files
 3. Open "NFL_Player_Analysis.ipynb" and run the program
 
 ## Running my Project From Any IDE
 1. Launch your preferred IDE
-2. Nagivate to the clone repo folder
+2. Navigate to the clone repo folder
 3. Run "NFL_Player_Analysis.py"
 
 
@@ -38,7 +38,7 @@ My project has met the following requires outlined by Code Kentucky:
 
 ## Data Analysis Conclusions
 ### Age for Maximum Performance by Position
-It appears there is a large correlation between the three skills positions of Running Back, Cornerback and Linebacker. These positions have a much larger emphasis on speed. Alternatively, there appears to be a correlation between the positions of Tackle and Defensive End. While speed is significant at these positions, power and strength are arguably superior. No position appears to correlate with Quarterback with them hitting their prime performance much later into their career. The quarterback position has a larger mental learning curve and takes many years for them to acclimate from college to pro. Additionally, recent rules changes over the last decade have been implemented to protect the health of this vital position which could be extending their careers.
+It appears there is a large correlation between the three skill positions of Running Back, Cornerback and Linebacker. These positions have a much larger emphasis on speed. Alternatively, there appears to be a correlation between the positions of Tackle and Defensive End. While speed is significant at these positions, power and strength are arguably superior. No position appears to correlate with Quarterback with them hitting their prime performance much later into their career. The Quarterback position has a larger mental learning curve and takes many years for them to acclimate from college to pro. Additionally, recent rule changes over the last decade have been implemented to protect the health of this vital position which could be extending their careers.
 
 ### Quarterback Height vs Performance
 There doesn't seem to be a correlation of Quarterback height to increased performance throughout their career. With a smaller sample size on the outliers (5'10" and 6'7"), it's hard to draw a definitive conclusion on the extremes. However, when looking at the bulk of data (6'2" - 6'5") the median performance is relatively close and there isn't an absolute trend upward as height increased. 
