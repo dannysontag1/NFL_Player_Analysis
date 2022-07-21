@@ -40,6 +40,9 @@ My project has met the following requires outlined by Code Kentucky:
 ### Age for Maximum Performance by Position
 It appears there is a large correlation between the three skills positions of Running Back, Cornerback and Linebacker. These positions have a much larger emphasis on speed. Alternatively, there appears to be a correlation between the positions of Tackle and Defensive End. While speed is significant at these positions, power and strength are arguably superior. No position appears to correlate with Quarterback with them hitting their prime performance much later into their career. The quarterback position has a larger mental learning curve and takes many years for them to acclimate from college to pro. Additionally, recent rules changes over the last decade have been implemented to protect the health of this vital position which could be extending their careers.
 
+### Age for Maximum Performance by Position
+There doesn't seem to be a correlation of Quarterback height to increased performance throughout their career. With a smaller sample size on the outliers (5'10" and 6'7"), it's hard to draw a definitive conclusion on the extremes. However, when looking at the bulk of data (6'2" - 6'5") the median performance is relatively close and there isn't an absolute trend upward as height increased. 
+
 ![Screenshot](Position_Grade_Boxplot.png)
 
 
