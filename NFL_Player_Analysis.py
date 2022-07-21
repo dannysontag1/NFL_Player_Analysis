@@ -3,6 +3,7 @@ import pandas as pd
 import pandasql as ps
 import matplotlib.pyplot as plt
 import datetime as dt
+import seaborn as sns
 
 QBJSONData = open('QB_JSON_DATA.json')
 QBdata = json.load(QBJSONData)
@@ -64,11 +65,12 @@ Offense_df = Offense_df[Offense_df['offense_snaps'] > 300]
 Offense_df['age'] = pd.to_numeric(Offense_df['age'])
 today = dt.date.today()
 Offense_df['age'] = round(Offense_df['age'] - (today.year - Offense_df['Year'] - today.month/12), 1)
-Offense_df = Offense_df[['name', 'grade_position', 'offense', 'age', 'height', 'weight', 'college', 'Year']]
+Offense_df = Offense_df[['name', 'grade_position', 'offense', 'age', 'height', 'weight', 'college', 'Year']].reset_index(drop = True)
 Offense_df = Offense_df.rename(columns={'name': 'Name', 'grade_position': 'Position', 'offense': 'Grade', 'age':'Age', 'height': 'Height', 'weight': 'Weight', 'college': 'College'})
 Offense_df.loc[Offense_df['Position'] == 'T', 'Position'] = 'Tackle'
 Offense_df.loc[Offense_df['Position'] == 'QB', 'Position'] = 'Quarterback'
 Offense_df.loc[Offense_df['Position'] == 'HB', 'Position'] = 'RunningBack'
+
 
 Defense_df = pd.concat([EDGEdf, LBdf, CBdf], axis=0)
 Defense_df = Defense_df.loc[(Defense_df['age'] != "")]
@@ -77,13 +79,14 @@ Defense_df['age'] = pd.to_numeric(Defense_df['age'])
 Defense_df['age'] = pd.to_numeric(Defense_df['age'])
 today = dt.date.today()
 Defense_df['age'] = round(Defense_df['age'] - (today.year - Defense_df['Year'] - today.month/12), 1)
-Defense_df = Defense_df[['name', 'grade_position', 'defense', 'age', 'height', 'weight', 'college', 'Year']]
+Defense_df = Defense_df[['name', 'grade_position', 'defense', 'age', 'height', 'weight', 'college', 'Year']].reset_index(drop = True)
 Defense_df = Defense_df.rename(columns={'name': 'Name', 'grade_position': 'Position', 'defense': 'Grade', 'age':'Age', 'height': 'Height', 'weight': 'Weight', 'college': 'College'})
 Defense_df.loc[Defense_df['Position'] == 'LB', 'Position'] = 'Linebacker'
 Defense_df.loc[Defense_df['Position'] == 'ED', 'Position'] = 'DefensiveEnd'
 Defense_df.loc[Defense_df['Position'] == 'CB', 'Position'] = 'Cornerback'
 
-Player_df = pd.concat([Defense_df, Offense_df], axis=0)
+
+Player_df = pd.concat([Defense_df, Offense_df], axis=0).reset_index(drop = True)
 
 
 Player_Max_df = ps.sqldf("Select Distinct Name, max(Grade), Position, Age, Year, count(Name) from Player_df group by Name having count(Name) > 2")
@@ -93,15 +96,14 @@ Player_Max_df = ps.sqldf("Select * from Player_Max_df where Max_Year = 'Yes'")
 Mean_MaxAge_df = Player_Max_df.groupby('Position')['Age'].mean().sort_values(ascending=False)
 
 
-bp = Player_Max_df.boxplot(by = 'Position', column=['Age'],  grid= False, figsize=(12, 10), showfliers = True)
-plt.title("Prime Age by Position", size=25)
-# bp.get_figure().gca().set_title("")
-plt.xlabel('Position', size=20)
-plt.ylabel('Prime Age', size=20)
+plt.figure(figsize=(12,10))
+b = sns.boxplot(x=Player_Max_df['Position'], y=Player_Max_df['Age'])
+b.set_xlabel("Position",fontsize=20)
+b.set_ylabel("Prime Age",fontsize=20)
+b.axes.set_title("Prime Age by Position",fontsize=20)
 plt.show()
 
 
-# Breakdown of colleges that produced the most amount of players in the NFL over the last 10 years at one of these positions
 College_df = Player_df[['Name', 'Position', 'College', 'Year']]
 # Max year to remove duplicates and get the last year that an individual played
 College_df = Player_df.groupby(['Name', 'College', 'Position'])['Year'].max()
@@ -117,9 +119,8 @@ DE_df = ps.sqldf("Select College, Position, count(Position) from College_df wher
 QB_df = ps.sqldf("Select College, Position, count(Position) from College_df where Position = 'Quarterback' group by College, Position having count(Position) > 2 order by count(Position)")
 RB_df = ps.sqldf("Select College, Position, count(Position) from College_df where Position = 'RunningBack' group by College, Position having count(Position) > 4 order by count(Position)")
 T_df = ps.sqldf("Select College, Position, count(Position) from College_df where Position = 'Tackle' group by College, Position having count(Position) > 4 order by count(Position)")
-# T_df.plot(kind = 'bar', x = 'College', y = 'count(Position)')
-# plt.show()
-plt.figure(figsize = (25, 15))
+
+plt.figure(figsize = (20, 12))
 plt.subplot(231)
 plt.barh(QB_df['College'], QB_df['count(Position)'], color='green')
 plt.yticks(fontsize=20)
@@ -160,3 +161,18 @@ plt.title('Most Linebackers by College', fontsize=27)
 plt.tight_layout()
 plt.show()
 
+
+Metrics_df = Player_df[['Position', 'Grade', 'Height', 'Weight']]
+QB_height_df = Metrics_df[['Position', 'Grade', 'Height']]
+QB_height_df = QB_height_df.loc[(Metrics_df['Position'] == 'Quarterback')]
+QB_height = QB_height_df.groupby('Height')
+QB_height.describe()
+
+
+plt.figure(figsize=(15,10))
+p = sns.boxplot(x=QB_height_df['Height'], y=QB_height_df['Grade'])
+p.set_xlabel("X Label",fontsize=20)
+p.set_ylabel("Y Label",fontsize=20)
+p.axes.set_title("Quarterback Grades by Height",fontsize=20)
+sns.swarmplot(x=QB_height_df['Height'], y=QB_height_df['Grade'],color=".25")
+plt.show()
