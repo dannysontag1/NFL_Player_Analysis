@@ -48,7 +48,8 @@ There doesn't seem to be a correlation of Quarterback height to increased perfor
 ![Screenshot](QBHeight_vs_Grade_Boxplot.png)
 
 
-###Players by Alma Matter 
+###Players by Alma Matter
+
 ![Screenshot](College_AlmaMater_Boxplot.png)
 
 
