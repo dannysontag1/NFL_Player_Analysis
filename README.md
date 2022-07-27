@@ -12,9 +12,9 @@ With the recent advancement of data availability, over the past decade there has
 ## Cloning Repo and Installing Relevant Packages
 1. Confirm that a version of Python 3 has been installed on your local machine
 3. Open Git Bash and navigate to where you would like to clone my Repository using the CD "desired path" command
-4. Run git clone "git@github.com:dannysontag1/NFL_Player_Analysis.git" or you can grab the key directly from my repo
-5. Bring up the command prompt and once again navigate to the cloned Repository using the CD "desired path" command
-6. To make sure you have all the necessary packages to run my program, run "pip install -r requirements.txt" 
+5. Run git clone "git@github.com:dannysontag1/NFL_Player_Analysis.git" or you can grab the key directly from my repo
+6. Create a virtual environment - instructions on creating a virtual environment (https://docs.python.org/3/tutorial/venv.html)
+7. To make sure you have all the necessary packages to run my program, run "py -m pip install -r requirements.txt" for Windows or "python -m pip install -r requirements.txt" for Unix/macOS. 
 
 ## Running my Project From Jupyter Notebook - Preferred
 1. Bring up the command prompt and once again navigate to the cloned Repository using the CD "desired path" command
@@ -40,16 +40,20 @@ My project has met the following requires outlined by Code Kentucky:
 ### Age for Maximum Performance by Position
 It appears there is a large correlation between the three skill positions of Running Back, Cornerback and Linebacker. These positions have a much larger emphasis on speed. Alternatively, there appears to be a correlation between the positions of Tackle and Defensive End. While speed is significant at these positions, power and strength are arguably superior. No position appears to correlate with Quarterback with them hitting their prime performance much later into their career. The Quarterback position has a larger mental learning curve and takes many years for them to acclimate from college to pro. Additionally, recent rule changes over the last decade have been implemented to protect the health of this vital position which could be extending their careers.
 
+![Screenshot](Position_Grade_Boxplot.png)
+
 ### Quarterback Height vs Performance
 There doesn't seem to be a correlation of Quarterback height to increased performance throughout their career. With a smaller sample size on the outliers (5'10" and 6'7"), it's hard to draw a definitive conclusion on the extremes. However, when looking at the bulk of data (6'2" - 6'5") the median performance is relatively close and there isn't an absolute trend upward as height increased. 
 
-![Screenshot](Position_Grade_Boxplot.png)
+![Screenshot](QBHeight_vs_Grade_Boxplot.png)
 
+
+### Player Alma Mater by Position
 
 ![Screenshot](College_AlmaMater_Boxplot.png)
 
 
-![Screenshot](QBHeight_vs_Grade_Boxplot.png)
+
 
 
 
