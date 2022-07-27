@@ -13,8 +13,8 @@ With the recent advancement of data availability, over the past decade there has
 1. Confirm that a version of Python 3 has been installed on your local machine
 3. Open Git Bash and navigate to where you would like to clone my Repository using the CD "desired path" command
 5. Run git clone "git@github.com:dannysontag1/NFL_Player_Analysis.git" or you can grab the key directly from my repo
-6. Create a virtual environment by running "py -m venv venv"
-7. To make sure you have all the necessary packages to run my program, run "pip install -r requirements.txt" 
+6. Create a virtual environment - instructions on creating a virtual environment (https://docs.python.org/3/tutorial/venv.html)
+7. To make sure you have all the necessary packages to run my program, run "py -m pip install -r requirements.txt" for Windows or "python -m pip install -r requirements.txt" for Unix/macOS. 
 
 ## Running my Project From Jupyter Notebook - Preferred
 1. Bring up the command prompt and once again navigate to the cloned Repository using the CD "desired path" command
