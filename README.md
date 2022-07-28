@@ -19,7 +19,8 @@ With the recent advancement of data availability, over the past decade there has
 ## Running my Project From Jupyter Notebook - Preferred
 1. Bring up the command prompt and once again navigate to the cloned Repository using the CD "desired path" command
 2. From the command prompt run "jupyter notebook" and this should launch a browser window with all my cloned repo files
-3. Open "NFL_Player_Analysis.ipynb" and run the program
+3. Jupyter should be installed from my requirements.txt but if you get an error run "pip install jupyter" and then run "jupyter notebook"
+4. Open "NFL_Player_Analysis.ipynb" and run the program
 
 ## Running my Project From Any IDE
 1. Launch your preferred IDE
